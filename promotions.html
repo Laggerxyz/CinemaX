@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ưu Đãi & Khuyến Mãi – CinemaX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .promo-hero {
+      background: linear-gradient(135deg, #8B0000 0%, #c0392b 40%, #1a1a2e 100%);
+      padding: 3.5rem 0 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .promo-hero::before {
+      content: '🎟️';
+      position: absolute; right: -2rem; top: 50%;
+      transform: translateY(-50%);
+      font-size: 12rem; opacity: .06;
+    }
+    .deal-card {
+      background: var(--dark3);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07);
+      transition: all var(--transition);
+      height: 100%;
+    }
+    .deal-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+      border-color: rgba(229,9,20,.3);
+    }
+    .deal-banner {
+      height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; position: relative; overflow: hidden;
+    }
+    .deal-tag {
+      position: absolute; top: 1rem; left: 0;
+      background: var(--red); color: var(--white);
+      font-family: var(--font-main); font-size: .68rem; font-weight: 800;
+      padding: .25rem .75rem .25rem .5rem;
+      border-radius: 0 4px 4px 0;
+    }
+    .deal-badge-hot {
+      position: absolute; top: 1rem; right: 1rem;
+      background: var(--gold); color: var(--dark);
+      font-family: var(--font-main); font-size: .65rem; font-weight: 800;
+      padding: .2rem .5rem; border-radius: 20px;
+      animation: pulse-badge 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse-badge { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+    .deal-body { padding: 1.25rem; }
+    .deal-title {
+      font-family: var(--font-main); font-size: 1rem; font-weight: 800;
+      color: var(--white); margin-bottom: .4rem;
+    }
+    .deal-desc { font-size: .82rem; color: var(--muted); line-height: 1.6; margin-bottom: .75rem; }
+    .deal-conditions { font-size: .75rem; color: rgba(255,255,255,.4); margin-top: .5rem; }
+    .deal-expiry {
+      display: flex; align-items: center; gap: .35rem;
+      font-size: .75rem; color: var(--gold); font-family: var(--font-main); font-weight: 600;
+      margin-bottom: .75rem;
+    }
+    .member-tier-card {
+      background: var(--dark3); border-radius: var(--radius-lg);
+      padding: 1.5rem; text-align: center;
+      border: 2px solid rgba(255,255,255,.07);
+      transition: all var(--transition); height: 100%;
+    }
+    .member-tier-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-sm); }
+    .tier-silver { border-color: rgba(192,192,192,.3); }
+    .tier-gold   { border-color: rgba(245,197,24,.35); }
+    .tier-vip    { border-color: rgba(229,9,20,.35);
+                   background: linear-gradient(145deg, rgba(229,9,20,.08), var(--dark3)); }
+    .tier-icon { font-size: 3rem; margin-bottom: .75rem; display: block; }
+    .tier-name {
+      font-family: var(--font-main); font-size: 1.1rem; font-weight: 900;
+      margin-bottom: .25rem;
+    }
+    .tier-silver .tier-name { color: #c0c0c0; }
+    .tier-gold   .tier-name { color: var(--gold); }
+    .tier-vip    .tier-name { color: var(--red); }
+    .tier-condition { font-size: .8rem; color: var(--muted); margin-bottom: 1rem; }
+    .tier-benefit {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .8rem; color: var(--light); padding: .3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      text-align: left;
+    }
+    .tier-benefit:last-child { border-bottom: none; }
+    .tier-benefit i { color: #27ae60; flex-shrink: 0; }
+    .countdown-box {
+      background: var(--dark4); border-radius: var(--radius);
+      padding: .6rem 1rem; text-align: center; min-width: 60px;
+    }
+    .countdown-num {
+      font-family: var(--font-main); font-size: 1.6rem; font-weight: 900;
+      color: var(--white); display: block; line-height: 1;
+    }
+    .countdown-label { font-size: .65rem; color: var(--muted); font-family: var(--font-main); font-weight: 600; }
+    .voucher-card {
+      background: var(--dark3); border-radius: var(--radius);
+      border: 2px dashed rgba(255,255,255,.12);
+      display: flex; overflow: hidden;
+      transition: all var(--transition);
+    }
+    .voucher-card:hover { border-color: rgba(229,9,20,.4); }
+    .voucher-left {
+      background: var(--red); width: 80px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 1rem .5rem; flex-shrink: 0;
+    }
+    .voucher-pct { font-family: var(--font-main); font-size: 1.4rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .voucher-off { font-size: .6rem; font-family: var(--font-main); font-weight: 700; color: rgba(255,255,255,.7); letter-spacing:.5px }
+    .voucher-right { padding: .85rem 1rem; flex: 1; }
+    .voucher-name { font-family: var(--font-main); font-size: .9rem; font-weight: 700; color: var(--white); }
+    .voucher-code {
+      background: var(--dark4); border-radius: 6px; padding: .3rem .65rem;
+      font-family: 'Courier New', monospace; font-size: .82rem; font-weight: 700;
+      color: var(--gold); display: inline-block; margin: .4rem 0; letter-spacing: 1px;
+    }
+    .voucher-note { font-size: .73rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-cinemex navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand-cx" href="index.html">Cinema<span>X</span></a>
+    <button class="navbar-toggler-cx" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link-cx" href="index.html"><i class="bi bi-house-fill me-1"></i>Trang Chủ</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="movies.html"><i class="bi bi-film me-1"></i>Phim</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="index.html#cinemasSection"><i class="bi bi-geo-alt-fill me-1"></i>Rạp</a></li>
+        <li class="nav-item"><a class="nav-link-cx active" href="promotions.html"><i class="bi bi-gift-fill me-1"></i>Ưu Đãi</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="account.html"><i class="bi bi-person-fill me-1"></i>Tài Khoản</a></li>
+      </ul>
+      <div class="ms-lg-3 d-flex align-items-center gap-2 mt-2 mt-lg-0" id="navAuthWrap">
+        <!-- Rendered by navbar.js -->
+        <a href="account.html" class="btn-cx-outline" style="padding:.45rem 1rem;font-size:.82rem;text-decoration:none">
+          <i class="bi bi-person"></i>Đăng Nhập
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="promo-hero">
+  <div class="container position-relative" style="z-index:2">
+    <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider:'›'">
+      <ol class="breadcrumb" style="font-size:.78rem;margin-bottom:.75rem">
+        <li class="breadcrumb-item"><a href="index.html" class="text-white-50">Trang Chủ</a></li>
+        <li class="breadcrumb-item active text-white">Ưu Đãi</li>
+      </ol>
+    </nav>
+    <h1 style="font-family:var(--font-main);font-weight:900;font-size:clamp(1.8rem,5vw,3rem);color:var(--white);margin-bottom:.5rem">
+      🎁 Ưu Đãi & Khuyến Mãi
+    </h1>
+    <p class="text-white-50" style="font-size:.9rem;max-width:520px">
+      Hàng trăm ưu đãi hấp dẫn đang chờ bạn! Tiết kiệm tới 50% khi mua vé trực tuyến.
+    </p>
+    <!-- Countdown -->
+    <div class="mt-3">
+      <div class="text-white-50" style="font-size:.78rem;font-family:var(--font-main);font-weight:600;margin-bottom:.6rem">
+        ⏰ FLASH SALE KẾT THÚC SAU:
+      </div>
+      <div class="d-flex gap-2 align-items-center">
+        <div class="countdown-box"><span class="countdown-num" id="cdHours">05</span><span class="countdown-label">GIỜ</span></div>
+        <span style="color:var(--red);font-weight:900;font-size:1.2rem">:</span>
+        <div class="countdown-box"><span class="countdown-num" id="cdMins">32</span><span class="countdown-label">PHÚT</span></div>
+        <span style="color:var(--red);font-weight:900;font-size:1.2rem">:</span>
+        <div class="countdown-box"><span class="countdown-num" id="cdSecs">48</span><span class="countdown-label">GIÂY</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLASH SALE -->
+<section class="section-cx section-dark">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <h2 class="section-title mb-0">⚡ Flash Sale Hôm Nay</h2>
+      <span class="badge-live">ĐANG DIỄN RA</span>
+    </div>
+    <div class="row g-3">
+      <div class="col-sm-6 col-lg-3">
+        <div class="deal-card">
+          <div class="deal-banner" style="background:linear-gradient(135deg,#8B0000,#c0392b)">
+            🎟️
+            <span class="deal-tag">Flash Sale</span>
+            <span class="deal-badge-hot">HOT</span>
+          </div>
+          <div class="deal-body">
+            <div class="deal-expiry"><i class="bi bi-clock-fill"></i>Còn 5 giờ 32 phút</div>
+            <div class="deal-title">Vé 2D Chỉ 55.000đ</div>
+            <div class="deal-desc">Áp dụng tất cả phim 2D đang chiếu vào ngày thứ Ba hàng tuần.</div>
+            <div class="voucher-code">THUBA55K</div>
+            <button class="btn-cx-primary w-100 justify-content-center mt-2"
+              onclick="copyCode('THUBA55K')">
+              <i class="bi bi-clipboard-fill"></i>Sao Chép Mã
+            </button>
+            <div class="deal-conditions">* Áp dụng T3 hàng tuần, không áp dụng IMAX/4DX</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="deal-card">
+          <div class="deal-banner" style="background:linear-gradient(135deg,#4a235a,#8e44ad)">
+            👫
+            <span class="deal-tag">Cặp Đôi</span>
+          </div>
+          <div class="deal-body">
+            <div class="deal-expiry"><i class="bi bi-calendar-fill"></i>Đến hết 31/12/2025</div>
+            <div class="deal-title">Combo Đôi Siêu Tiết Kiệm</div>
+            <div class="deal-desc">Mua 2 vé bất kỳ, tặng ngay 1 phần bắp rang bơ lớn trị giá 65.000đ.</div>
+            <div class="voucher-code">COUPLE2025</div>
+            <button class="btn-cx-primary w-100 justify-content-center mt-2"
+              onclick="copyCode('COUPLE2025')">
+              <i class="bi bi-clipboard-fill"></i>Sao Chép Mã
+            </button>
+            <div class="deal-conditions">* Mua tối thiểu 2 vé cùng suất chiếu</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="deal-card">
+          <div class="deal-banner" style="background:linear-gradient(135deg,#1a3a6c,#3498db)">
+            🎓
+            <span class="deal-tag">Sinh Viên</span>
+          </div>
+          <div class="deal-body">
+            <div class="deal-expiry"><i class="bi bi-calendar-fill"></i>Đến hết 30/6/2025</div>
+            <div class="deal-title">Giảm 30% Cho Sinh Viên</div>
+            <div class="deal-desc">Xuất trình thẻ sinh viên hợp lệ để được giảm 30% tất cả loại vé.</div>
+            <div class="voucher-code">SV30OFF</div>
+            <button class="btn-cx-primary w-100 justify-content-center mt-2"
+              onclick="copyCode('SV30OFF')">
+              <i class="bi bi-clipboard-fill"></i>Sao Chép Mã
+            </button>
+            <div class="deal-conditions">* Xuất trình thẻ SV khi đến rạp</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="deal-card">
+          <div class="deal-banner" style="background:linear-gradient(135deg,#7d5a00,#d4a017)">
+            🎂
+            <span class="deal-tag">Sinh Nhật</span>
+          </div>
+          <div class="deal-body">
+            <div class="deal-expiry"><i class="bi bi-infinity"></i> Quanh năm</div>
+            <div class="deal-title">Miễn Phí 1 Vé Ngày Sinh Nhật</div>
+            <div class="deal-desc">Tặng 1 vé 2D miễn phí trong tháng sinh nhật khi là thành viên CinemaX.</div>
+            <div class="voucher-code">BIRTHDAY🎁</div>
+            <button class="btn-cx-gold w-100 justify-content-center mt-2"
+              onclick="showToast('🎂 Đăng ký thành viên để nhận ưu đãi sinh nhật!','info')">
+              <i class="bi bi-person-plus-fill"></i>Đăng Ký Thành Viên
+            </button>
+            <div class="deal-conditions">* Chỉ dành cho thành viên CinemaX</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOUCHER LIST -->
+<section class="section-cx">
+  <div class="container">
+    <h2 class="section-title mb-4">🏷️ Mã Giảm Giá Đang Có</h2>
+    <div class="row g-3">
+      <!-- Voucher items -->
+      <div class="col-md-6">
+        <div class="voucher-card">
+          <div class="voucher-left">
+            <div class="voucher-pct">20</div>
+            <div class="voucher-off">% OFF</div>
+          </div>
+          <div class="voucher-right">
+            <div class="voucher-name">Giảm 20% Tất Cả Vé</div>
+            <span class="voucher-code">CINEMEX20</span>
+            <div class="voucher-note">Áp dụng tất cả phim · HSD: 31/12/2025</div>
+            <button class="btn-cx-outline mt-2" style="font-size:.75rem;padding:.35rem .85rem" onclick="copyCode('CINEMEX20')">
+              <i class="bi bi-clipboard"></i> Copy mã
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="voucher-card">
+          <div class="voucher-left" style="background:var(--gold)">
+            <div class="voucher-pct" style="color:var(--dark)">50</div>
+            <div class="voucher-off" style="color:rgba(0,0,0,.6)">% OFF</div>
+          </div>
+          <div class="voucher-right">
+            <div class="voucher-name">Flash Sale 50% Suất Sáng</div>
+            <span class="voucher-code">MORNING50</span>
+            <div class="voucher-note">Suất 9:00–11:00 · HSD: 01/03/2025</div>
+            <button class="btn-cx-outline mt-2" style="font-size:.75rem;padding:.35rem .85rem" onclick="copyCode('MORNING50')">
+              <i class="bi bi-clipboard"></i> Copy mã
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="voucher-card">
+          <div class="voucher-left" style="background:#1abc9c">
+            <div class="voucher-pct">30</div>
+            <div class="voucher-off">% OFF</div>
+          </div>
+          <div class="voucher-right">
+            <div class="voucher-name">Giảm 30% Vé IMAX</div>
+            <span class="voucher-code">IMAX30VIP</span>
+            <div class="voucher-note">Chỉ áp dụng vé IMAX · HSD: 28/02/2025</div>
+            <button class="btn-cx-outline mt-2" style="font-size:.75rem;padding:.35rem .85rem" onclick="copyCode('IMAX30VIP')">
+              <i class="bi bi-clipboard"></i> Copy mã
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="voucher-card">
+          <div class="voucher-left" style="background:#e74c3c">
+            <div style="font-size:1.6rem">🍿</div>
+          </div>
+          <div class="voucher-right">
+            <div class="voucher-name">Tặng Bắp Rang Bơ Lớn</div>
+            <span class="voucher-code">FREEPOPCORN</span>
+            <div class="voucher-note">Mua từ 3 vé · HSD: 15/02/2025</div>
+            <button class="btn-cx-outline mt-2" style="font-size:.75rem;padding:.35rem .85rem" onclick="copyCode('FREEPOPCORN')">
+              <i class="bi bi-clipboard"></i> Copy mã
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERSHIP TIERS -->
+<section class="section-cx section-dark">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title d-block mx-auto" style="display:block!important">
+        👑 Thẻ Thành Viên CinemaX
+      </h2>
+      <p class="text-muted" style="font-size:.88rem;max-width:500px;margin:0 auto">
+        Tích điểm mỗi lần mua vé, nâng hạng thẻ và nhận đặc quyền độc quyền
+      </p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-sm-6 col-lg-4">
+        <div class="member-tier-card tier-silver">
+          <span class="tier-icon">🥈</span>
+          <div class="tier-name">Bạc</div>
+          <div class="tier-condition">Từ 0 điểm – Miễn phí</div>
+          <div class="mt-3">
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Tích 1 điểm / 10.000đ</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Giảm 5% mỗi lần mua</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Ưu đãi sinh nhật</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Nhận email khuyến mãi</div>
+          </div>
+          <button class="btn-cx-outline w-100 justify-content-center mt-4"
+            onclick="showToast('📝 Đăng ký thẻ Bạc thành công!','success')">
+            Đăng Ký Miễn Phí
+          </button>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="member-tier-card tier-gold" style="transform:scale(1.02)">
+          <span class="tier-icon">🥇</span>
+          <div class="tier-name">Vàng</div>
+          <div class="tier-condition">Từ 500 điểm (≈ 50 vé)</div>
+          <div class="mt-3">
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Tích 1.5 điểm / 10.000đ</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Giảm 10% mỗi lần mua</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Đặt trước 48 giờ</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>1 vé miễn phí / tháng</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Miễn phí bắp vừa</div>
+          </div>
+          <button class="btn-cx-gold w-100 justify-content-center mt-4"
+            onclick="showToast('🥇 Tích điểm để đạt hạng Vàng!','info')">
+            Nâng Cấp Hạng
+          </button>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="member-tier-card tier-vip">
+          <span class="tier-icon">💎</span>
+          <div class="tier-name">VIP Diamond</div>
+          <div class="tier-condition">Từ 2000 điểm (≈ 200 vé)</div>
+          <div class="mt-3">
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Tích 2 điểm / 10.000đ</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Giảm 20% mỗi lần mua</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Đặt trước 72 giờ</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>3 vé miễn phí / tháng</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Ghế VIP ưu tiên</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Combo bắp + nước miễn phí</div>
+            <div class="tier-benefit"><i class="bi bi-check-circle-fill"></i>Dự sự kiện ra mắt phim</div>
+          </div>
+          <button class="btn-cx-primary w-100 justify-content-center mt-4"
+            onclick="showToast('💎 Tiếp tục tích điểm để đạt VIP Diamond!','info')">
+            Khám Phá Đặc Quyền
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="section-cx" style="background:linear-gradient(135deg,#8B0000 0%,#1a1a2e 100%)">
+  <div class="container text-center py-2">
+    <div style="font-size:3rem;margin-bottom:.75rem">🎬</div>
+    <h2 style="font-family:var(--font-main);font-weight:900;font-size:clamp(1.4rem,4vw,2.2rem);color:var(--white);margin-bottom:.75rem">
+      Đừng Bỏ Lỡ Ưu Đãi Hấp Dẫn!
+    </h2>
+    <p class="text-white-50" style="font-size:.9rem;max-width:480px;margin:0 auto 1.5rem">
+      Đăng ký thành viên ngay hôm nay để nhận thông báo ưu đãi đầu tiên và vé xem phim miễn phí.
+    </p>
+    <div class="d-flex gap-2 justify-content-center flex-wrap">
+      <button class="btn-cx-gold" onclick="showToast('📧 Đăng ký nhận thông báo thành công!','success')">
+        <i class="bi bi-envelope-fill"></i>Đăng Ký Nhận Thông Báo
+      </button>
+      <a href="movies.html" class="btn-cx-outline">
+        <i class="bi bi-ticket-perforated-fill"></i>Đặt Vé Ngay
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-cx">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-brand">Cinema<span>X</span></div>
+        <p class="footer-desc">Hệ thống đặt vé xem phim trực tuyến hàng đầu Việt Nam.</p>
+        <div class="mt-3">
+          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="footer-title">Điều Hướng</div>
+        <a href="index.html" class="footer-link">Trang Chủ</a>
+        <a href="movies.html" class="footer-link">Danh Sách Phim</a>
+        <a href="index.html#cinemasSection" class="footer-link">Hệ Thống Rạp</a>
+        <a href="promotions.html" class="footer-link">Ưu Đãi</a>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="footer-title">Hỗ Trợ</div>
+        <a href="#" class="footer-link">Câu Hỏi Thường Gặp</a>
+        <a href="#" class="footer-link">Liên Hệ</a>
+        <span class="footer-link" style="cursor:default">1900 6789</span>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">© 2025 CinemaX. Tất cả quyền được bảo lưu.</div>
+  </div>
+</footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn"><i class="bi bi-chevron-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/navbar.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+// Countdown timer
+(function() {
+  let total = (5 * 3600) + (32 * 60) + 48;
+  function tick() {
+    if (total <= 0) return;
+    total--;
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    const pad = n => String(n).padStart(2, '0');
+    document.getElementById('cdHours').textContent = pad(h);
+    document.getElementById('cdMins').textContent  = pad(m);
+    document.getElementById('cdSecs').textContent  = pad(s);
+  }
+  setInterval(tick, 1000);
+})();
+
+function copyCode(code) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).then(() => showToast(`✅ Đã sao chép mã: ${code}`, 'success'));
+  } else {
+    showToast(`📋 Mã của bạn: ${code}`, 'info');
+  }
+}
+</script>
+</body>
+</html>

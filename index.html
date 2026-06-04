@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinemaX – Đặt Vé Xem Phim Online</title>
+  <meta name="description" content="Đặt vé xem phim online nhanh chóng, tiện lợi tại CinemaX. Hơn 100 rạp toàn quốc.">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+<nav class="navbar navbar-cinemex navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand-cx" href="index.html">Cinema<span>X</span></a>
+    <button class="navbar-toggler-cx" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link-cx active" href="index.html"><i class="bi bi-house-fill me-1"></i>Trang Chủ</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="movies.html"><i class="bi bi-film me-1"></i>Phim</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="#cinemasSection"><i class="bi bi-geo-alt-fill me-1"></i>Rạp</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="#promosSection"><i class="bi bi-gift-fill me-1"></i>Ưu Đãi</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="account.html"><i class="bi bi-person-fill me-1"></i>Tài Khoản</a></li>
+      </ul>
+      <div class="ms-lg-3 d-flex align-items-center gap-2 mt-2 mt-lg-0" id="navAuthWrap">
+        <!-- Rendered by navbar.js -->
+        <a href="account.html" class="btn-cx-outline" style="padding:.45rem 1rem;font-size:.82rem;text-decoration:none">
+          <i class="bi bi-person"></i>Đăng Nhập
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════ HERO SLIDER ═══════════════════════ -->
+<section class="hero-slider" id="heroSlider">
+  <div id="heroTrack"></div>
+  <button class="slider-arrow slider-prev" id="heroPrev"><i class="bi bi-chevron-left"></i></button>
+  <button class="slider-arrow slider-next" id="heroNext"><i class="bi bi-chevron-right"></i></button>
+  <div class="slider-dots" id="heroDots"></div>
+</section>
+
+<!-- ═══════════════════════ QUICK SEARCH ═══════════════════════ -->
+<section class="py-3" style="background:var(--dark2);border-bottom:1px solid rgba(255,255,255,.06)">
+  <div class="container">
+    <div class="row g-2 align-items-center">
+      <div class="col-md-4">
+        <select class="input-cx" id="qs_movie" style="cursor:pointer">
+          <option value="">🎬 Chọn Phim</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select class="input-cx" id="qs_cinema" style="cursor:pointer">
+          <option value="">📍 Chọn Rạp</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select class="input-cx" id="qs_date" style="cursor:pointer">
+          <option value="">📅 Chọn Ngày</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="btn-cx-primary w-100 justify-content-center" onclick="quickSearch()">
+          <i class="bi bi-search"></i>Tìm Suất
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ NOW SHOWING ═══════════════════════ -->
+<section class="section-cx">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <h2 class="section-title mb-0">Đang Chiếu</h2>
+      <a href="movies.html" class="btn-cx-outline" style="font-size:.8rem">Xem Tất Cả <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="row g-3 row-cols-stretch" id="nowShowingGrid" style="position:relative;isolation:isolate">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ COMING SOON ═══════════════════════ -->
+<section class="section-cx section-dark">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <h2 class="section-title mb-0">Sắp Chiếu</h2>
+      <a href="movies.html#coming" class="btn-cx-outline" style="font-size:.8rem">Xem Tất Cả <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="row g-3" id="comingSoonGrid" style="position:relative;isolation:isolate"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ CINEMAS ═══════════════════════ -->
+<section class="section-cx" id="cinemasSection">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="section-title d-block mx-auto" style="display:block!important">Hệ Thống Rạp</h2>
+      <p class="text-muted" style="font-size:.9rem">Hơn 50 rạp phim hiện đại toàn quốc</p>
+    </div>
+    <div class="row g-3" id="cinemasGrid"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ PROMOTIONS ═══════════════════════ -->
+<section class="section-cx section-dark" id="promosSection">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <h2 class="section-title mb-0">Ưu Đãi Hấp Dẫn</h2>
+      <span class="badge-live">HOT DEALS</span>
+    </div>
+    <div class="row g-3" id="promosGrid"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ WHY CINEMEX ═══════════════════════ -->
+<section class="section-cx">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="section-title d-block mx-auto" style="display:block!important">Tại Sao Chọn CinemaX?</h2>
+    </div>
+    <div class="row g-4 text-center">
+      <div class="col-6 col-md-3">
+        <div style="font-size:2.5rem mb-2">⚡</div>
+        <div style="font-family:var(--font-main);font-size:2.5rem;margin-bottom:.5rem">⚡</div>
+        <h5 style="font-family:var(--font-main);font-weight:700;font-size:.95rem">Đặt Vé Siêu Nhanh</h5>
+        <p class="text-muted" style="font-size:.8rem">Chỉ 3 bước để có vé, không cần xếp hàng</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <div style="font-family:var(--font-main);font-size:2.5rem;margin-bottom:.5rem">🎬</div>
+        <h5 style="font-family:var(--font-main);font-weight:700;font-size:.95rem">Phòng Chiếu Đỉnh Cao</h5>
+        <p class="text-muted" style="font-size:.8rem">IMAX, 4DX, Dolby Atmos & VIP Lounge</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <div style="font-family:var(--font-main);font-size:2.5rem;margin-bottom:.5rem">🎟️</div>
+        <h5 style="font-family:var(--font-main);font-weight:700;font-size:.95rem">Nhiều Ưu Đãi</h5>
+        <p class="text-muted" style="font-size:.8rem">Thứ 3 giảm giá, thẻ thành viên, sinh nhật</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <div style="font-family:var(--font-main);font-size:2.5rem;margin-bottom:.5rem">📱</div>
+        <h5 style="font-family:var(--font-main);font-weight:700;font-size:.95rem">Vé Điện Tử</h5>
+        <p class="text-muted" style="font-size:.8rem">Nhận vé qua email, quét QR code vào rạp</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer class="footer-cx">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-brand">Cinema<span>X</span></div>
+        <p class="footer-desc">Hệ thống đặt vé xem phim trực tuyến hàng đầu Việt Nam. Hơn 50 rạp chiếu phim hiện đại trên toàn quốc.</p>
+        <div class="mt-3">
+          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-tiktok"></i></a>
+        </div>
+        <div class="mt-3">
+          <a href="#" class="app-badge"><i class="bi bi-apple"></i>App Store</a>
+          <a href="#" class="app-badge"><i class="bi bi-google-play"></i>Google Play</a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2 col-md-3">
+        <div class="footer-title">Phim</div>
+        <a href="movies.html" class="footer-link">Đang Chiếu</a>
+        <a href="movies.html" class="footer-link">Sắp Chiếu</a>
+        <a href="movies.html" class="footer-link">Phim Hay</a>
+        <a href="#" class="footer-link">Top Box Office</a>
+      </div>
+      <div class="col-6 col-lg-2 col-md-3">
+        <div class="footer-title">Rạp Chiếu</div>
+        <a href="#cinemasSection" class="footer-link">TP. Hồ Chí Minh</a>
+        <a href="#cinemasSection" class="footer-link">Hà Nội</a>
+        <a href="#cinemasSection" class="footer-link">Đà Nẵng</a>
+        <a href="#cinemasSection" class="footer-link">Tất Cả Rạp</a>
+      </div>
+      <div class="col-6 col-lg-2 col-md-3">
+        <div class="footer-title">Ưu Đãi</div>
+        <a href="#promosSection" class="footer-link">Thẻ Thành Viên</a>
+        <a href="#promosSection" class="footer-link">Thứ 3 Vui Vẻ</a>
+        <a href="#promosSection" class="footer-link">Combo Đôi</a>
+        <a href="#promosSection" class="footer-link">Sinh Nhật</a>
+      </div>
+      <div class="col-6 col-lg-2 col-md-3">
+        <div class="footer-title">Hỗ Trợ</div>
+        <a href="#" class="footer-link">Câu Hỏi Thường Gặp</a>
+        <a href="#" class="footer-link">Liên Hệ</a>
+        <a href="#" class="footer-link">Điều Khoản Sử Dụng</a>
+        <a href="#" class="footer-link">Chính Sách Bảo Mật</a>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 footer-bottom">
+      <span>© 2025 CinemaX. Tất cả quyền được bảo lưu.</span>
+      <span>Hotline: <strong style="color:var(--red)">1900 6789</strong></span>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to top -->
+<button class="scroll-top-btn" id="scrollTopBtn"><i class="bi bi-chevron-up"></i></button>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- App JS -->
+<script src="js/navbar.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // Quick search dropdowns
+  document.addEventListener("DOMContentLoaded", () => {
+    const qsMovie  = document.getElementById("qs_movie");
+    const qsCinema = document.getElementById("qs_cinema");
+    const qsDate   = document.getElementById("qs_date");
+
+    MOVIES.filter(m=>m.status==="showing").forEach(m => {
+      qsMovie.innerHTML += `<option value="${m.id}">${m.emoji} ${m.title}</option>`;
+    });
+    CINEMAS.forEach(c => {
+      qsCinema.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+    });
+    getNextDays(7).forEach(d => {
+      qsDate.innerHTML += `<option>${formatDateLabel(d)}</option>`;
+    });
+  });
+
+  function quickSearch() {
+    const movieId = document.getElementById("qs_movie").value;
+    if (movieId) {
+      location.href = `booking.html?id=${movieId}`;
+    } else {
+      location.href = "movies.html";
+    }
+  }
+</script>
+</body>
+</html>

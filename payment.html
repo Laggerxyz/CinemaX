@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh Toán – CinemaX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body data-page="payment">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-cinemex navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand-cx" href="index.html">Cinema<span>X</span></a>
+    <div class="ms-auto d-flex align-items-center gap-2" style="font-size:.8rem;color:var(--muted);font-family:var(--font-main)">
+      <i class="bi bi-shield-lock-fill text-danger"></i>
+      <span>Thanh toán an toàn</span>
+    </div>
+  </div>
+</nav>
+
+<!-- STEP BAR -->
+<div class="steps-bar">
+  <div class="container">
+    <div class="steps-list">
+      <div class="step-item done">
+        <div class="step-inner">
+          <div class="step-num">✓</div>
+          <span class="step-label">Chọn Ghế</span>
+        </div>
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-item done">
+        <div class="step-inner">
+          <div class="step-num">✓</div>
+          <span class="step-label">Bắp & Nước</span>
+        </div>
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-item active">
+        <div class="step-inner">
+          <div class="step-num">3</div>
+          <span class="step-label">Thanh Toán</span>
+        </div>
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-item">
+        <div class="step-inner">
+          <div class="step-num">4</div>
+          <span class="step-label">Xác Nhận</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<section class="section-cx">
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- Left: Form -->
+      <div class="col-lg-7">
+        <!-- Customer Info -->
+        <div class="payment-form-card mb-4">
+          <h5 style="font-family:var(--font-main);font-weight:800;color:var(--white);margin-bottom:1.25rem">
+            <i class="bi bi-person-fill text-danger"></i> Thông Tin Người Mua
+          </h5>
+          <div class="form-cx row g-3">
+            <div class="col-md-6">
+              <label>HỌ VÀ TÊN *</label>
+              <input type="text" class="input-cx" id="payerName" placeholder="Nguyễn Văn A">
+            </div>
+            <div class="col-md-6">
+              <label>SỐ ĐIỆN THOẠI *</label>
+              <input type="tel" class="input-cx" id="payerPhone" placeholder="0901 234 567">
+            </div>
+            <div class="col-12">
+              <label>EMAIL *</label>
+              <input type="email" class="input-cx" id="payerEmail" placeholder="example@email.com">
+              <small class="text-muted" style="font-size:.73rem;margin-top:.3rem;display:block">
+                <i class="bi bi-info-circle"></i> Vé điện tử sẽ được gửi tới email này
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="payment-form-card mb-4">
+          <h5 style="font-family:var(--font-main);font-weight:800;color:var(--white);margin-bottom:1.25rem">
+            <i class="bi bi-credit-card-fill text-danger"></i> Phương Thức Thanh Toán
+          </h5>
+          <div class="pay-methods" id="payMethodsWrap"></div>
+
+          <!-- Card fields (hidden by default) -->
+          <div id="cardFields" style="display:none;margin-top:1rem">
+            <div class="form-cx row g-3">
+              <div class="col-12">
+                <label>SỐ THẺ</label>
+                <input type="text" class="input-cx" placeholder="1234 5678 9012 3456" maxlength="19">
+              </div>
+              <div class="col-6">
+                <label>NGÀY HẾT HẠN</label>
+                <input type="text" class="input-cx" placeholder="MM/YY" maxlength="5">
+              </div>
+              <div class="col-6">
+                <label>CVV</label>
+                <input type="text" class="input-cx" placeholder="123" maxlength="3">
+              </div>
+              <div class="col-12">
+                <label>TÊN TRÊN THẺ</label>
+                <input type="text" class="input-cx" placeholder="NGUYEN VAN A">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo code -->
+        <div class="payment-form-card mb-4">
+          <h5 style="font-family:var(--font-main);font-weight:800;color:var(--white);margin-bottom:1rem;font-size:.92rem">
+            <i class="bi bi-tag-fill text-warning"></i> Mã Ưu Đãi
+          </h5>
+          <div class="d-flex gap-2">
+            <input type="text" class="input-cx flex-grow-1" id="promoCode" placeholder="Nhập mã giảm giá (VD: CINEMEX20)">
+            <button class="btn-cx-outline" style="white-space:nowrap;flex-shrink:0" onclick="applyPromo()">
+              Áp Dụng
+            </button>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" id="agreeTerms">
+          <label class="form-check-label" for="agreeTerms" style="font-size:.82rem;color:var(--muted)">
+            Tôi đồng ý với <a href="#" style="color:var(--red)">Điều Khoản Sử Dụng</a> và <a href="#" style="color:var(--red)">Chính Sách Bảo Mật</a> của CinemaX
+          </label>
+        </div>
+
+        <!-- Pay button -->
+        <button class="btn-cx-primary w-100 justify-content-center py-3" id="btnPay" style="font-size:1rem;border-radius:12px">
+          <i class="bi bi-lock-fill"></i>Thanh Toán Ngay
+        </button>
+
+        <div class="d-flex align-items-center justify-content-center gap-2 mt-2" style="font-size:.75rem;color:var(--muted)">
+          <i class="bi bi-shield-check text-success"></i>
+          Bảo mật bởi SSL 256-bit · Thông tin được mã hóa
+        </div>
+      </div>
+
+      <!-- Right: Order Summary -->
+      <div class="col-lg-5">
+        <div class="order-summary" id="orderSummary">
+          <div class="text-center py-4 text-muted">
+            <div class="spinner-border spinner-border-sm text-danger"></div>
+            <div class="mt-2">Đang tải thông tin đặt vé…</div>
+          </div>
+        </div>
+        <!-- Guaranteed -->
+        <div class="cinema-card mt-3 text-center">
+          <div style="font-size:1.8rem mb-1">🔒</div>
+          <div style="font-size:1.8rem;margin-bottom:.4rem">🔒</div>
+          <div style="font-family:var(--font-main);font-size:.82rem;font-weight:700;color:var(--white)">Đặt Vé An Toàn</div>
+          <p class="text-muted" style="font-size:.75rem;margin-top:.3rem">Thông tin của bạn được bảo mật tuyệt đối. Hoàn tiền 100% nếu hệ thống lỗi.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/navbar.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/booking.js"></script>
+<script>
+function applyPromo() {
+  const bk = window.__bkPay;
+  if (!bk) return;
+
+  // Chỉ cho phép áp mã 1 lần
+  if (bk.discountApplied) {
+    showToast("⚠ Bạn đã áp dụng mã giảm giá rồi!", "default");
+    return;
+  }
+
+  const code = document.getElementById("promoCode").value.trim().toUpperCase();
+
+  const PROMOS = {
+    "CINEMEX20": { pct: 20, msg: "🎉 Áp dụng mã giảm 20% thành công!" },
+    "THUBA":     { pct: 30, msg: "🎉 Vé thứ ba giảm 30%!" },
+    "MORNING50": { pct: 50, msg: "🎉 Suất sáng giảm 50% thành công!" },
+  };
+
+  const promo = PROMOS[code];
+  if (!promo) {
+    showToast("⚠ Mã không hợp lệ hoặc đã hết hạn", "default");
+    return;
+  }
+
+  // Tính và áp dụng giảm giá
+  const discountAmount = Math.round(bk.total * promo.pct / 100);
+  bk.total          -= discountAmount;
+  bk.discountApplied = true;
+  bk.discountCode    = code;
+  bk.discountAmount  = discountAmount;
+
+  // Lưu lại
+  localStorage.setItem("cx_booking_current", JSON.stringify(bk));
+
+  // Cập nhật UI: re-render order summary
+  renderOrderSummary(bk);
+
+  // Cập nhật nút thanh toán
+  const btn = document.getElementById("btnPay");
+  if (btn && !btn.disabled) {
+    btn.textContent = `Thanh Toán ${formatVND(bk.total)}`;
+  }
+
+  showToast(promo.msg, "success");
+}
+</script>
+</body>
+</html>

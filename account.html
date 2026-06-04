@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài Khoản – CinemaX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .auth-wrap {
+      min-height: calc(100vh - 62px);
+      display: flex; align-items: center;
+      background: radial-gradient(ellipse at 30% 50%, rgba(229,9,20,.08) 0%, transparent 70%),
+                  radial-gradient(ellipse at 80% 20%, rgba(245,197,24,.06) 0%, transparent 60%),
+                  var(--dark);
+      padding: 3rem 0;
+    }
+    .auth-card {
+      background: var(--dark3);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,.08);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .auth-left {
+      background: linear-gradient(145deg,#8B0000,#1a1a2e);
+      padding: 3rem 2rem;
+      display: flex; flex-direction: column; justify-content: center;
+      min-height: 420px;
+    }
+    .auth-right { padding: 2.5rem; }
+    .auth-tabs {
+      display: flex; gap: 0;
+      background: var(--dark4); border-radius: 10px; padding: 4px;
+      margin-bottom: 1.75rem;
+    }
+    .auth-tab {
+      flex: 1; padding: .55rem;
+      text-align: center; border-radius: 8px;
+      font-family: var(--font-main); font-size: .85rem; font-weight: 700;
+      color: var(--muted); cursor: pointer; transition: all .2s; border: none;
+      background: transparent;
+    }
+    .auth-tab.active { background: var(--red); color: var(--white); }
+    .social-login {
+      display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.5rem;
+    }
+    .social-btn {
+      display: flex; align-items: center; gap: .75rem;
+      background: var(--dark4); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 9px; padding: .65rem 1rem;
+      color: var(--white); font-family: var(--font-main); font-size: .85rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .social-btn:hover { border-color: rgba(255,255,255,.25); background: var(--dark3); }
+    .divider-text {
+      display: flex; align-items: center; gap: .75rem;
+      font-size: .75rem; color: var(--muted); margin: 1.25rem 0;
+    }
+    .divider-text::before, .divider-text::after {
+      content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.1);
+    }
+    .benefit-item {
+      display: flex; align-items: flex-start; gap: .75rem;
+      margin-bottom: 1.1rem;
+    }
+    .benefit-icon {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .benefit-title { font-family: var(--font-main); font-size: .88rem; font-weight: 700; color: var(--white); }
+    .benefit-desc  { font-size: .75rem; color: rgba(255,255,255,.55); margin-top: .1rem; }
+    .tab-content-auth { display: none; }
+    .tab-content-auth.active { display: block; }
+    .strength-bar { height: 4px; border-radius: 2px; margin-top: .35rem; overflow: hidden; background: var(--dark4); }
+    .strength-fill { height: 100%; border-radius: 2px; transition: width .3s, background .3s; }
+    .profile-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: var(--red); display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 900; font-family: var(--font-main); color: var(--white);
+      border: 3px solid rgba(229,9,20,.4); margin: 0 auto 1rem;
+    }
+    .booking-history-item {
+      background: var(--dark4); border-radius: var(--radius);
+      padding: .85rem 1rem; margin-bottom: .6rem;
+      border: 1px solid rgba(255,255,255,.06);
+      display: flex; align-items: center; gap: .85rem;
+    }
+    .history-poster {
+      width: 42px; height: 58px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .history-movie { font-family: var(--font-main); font-size: .88rem; font-weight: 700; color: var(--white); }
+    .history-meta  { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
+    .history-code  { font-family: 'Courier New',monospace; font-size: .75rem; color: var(--gold); }
+    .status-badge-paid {
+      background: rgba(39,174,96,.15); color: #27ae60;
+      font-size: .65rem; font-family: var(--font-main); font-weight: 700;
+      padding: .15rem .45rem; border-radius: 4px; white-space: nowrap;
+    }
+    .points-ring {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: conic-gradient(var(--gold) 0% 35%, var(--dark4) 35% 100%);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto;
+      position: relative;
+    }
+    .points-ring::after {
+      content: ''; position: absolute;
+      width: 78px; height: 78px; border-radius: 50%;
+      background: var(--dark3);
+    }
+    .points-inner {
+      position: relative; z-index: 1; text-align: center;
+    }
+    .points-num { font-family: var(--font-main); font-size: 1.4rem; font-weight: 900; color: var(--gold); line-height: 1; }
+    .points-label { font-size: .6rem; color: var(--muted); font-family: var(--font-main); font-weight: 600; }
+  </style>
+</head>
+<body data-page="account">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-cinemex navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand-cx" href="index.html">Cinema<span>X</span></a>
+    <button class="navbar-toggler-cx" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link-cx" href="index.html"><i class="bi bi-house-fill me-1"></i>Trang Chủ</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="movies.html"><i class="bi bi-film me-1"></i>Phim</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="index.html#cinemasSection"><i class="bi bi-geo-alt-fill me-1"></i>Rạp</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="promotions.html"><i class="bi bi-gift-fill me-1"></i>Ưu Đãi</a></li>
+        <li class="nav-item"><a class="nav-link-cx active" href="account.html"><i class="bi bi-person-fill me-1"></i>Tài Khoản</a></li>
+      </ul>
+      <div class="ms-lg-3 d-flex align-items-center gap-2 mt-2 mt-lg-0" id="navAuthWrap">
+        <!-- Rendered by navbar.js -->
+        <a href="account.html" class="btn-cx-outline" style="padding:.45rem 1rem;font-size:.82rem;text-decoration:none">
+          <i class="bi bi-person"></i>Đăng Nhập
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- AUTH WRAP -->
+<div class="auth-wrap" id="authSection">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-9 col-lg-10">
+        <div class="auth-card">
+          <div class="row g-0">
+            <!-- Left: Branding -->
+            <div class="col-lg-5 auth-left d-none d-lg-flex">
+              <div>
+                <div style="font-size:3rem;margin-bottom:1.25rem">🎬</div>
+                <h2 style="font-family:var(--font-main);font-size:1.6rem;font-weight:900;color:var(--white);margin-bottom:.5rem">
+                  Chào Mừng Đến CinemaX
+                </h2>
+                <p style="color:rgba(255,255,255,.6);font-size:.85rem;margin-bottom:2rem">
+                  Đăng nhập để nhận ưu đãi độc quyền và quản lý vé của bạn.
+                </p>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🎟️</div>
+                  <div>
+                    <div class="benefit-title">Đặt Vé Nhanh Hơn</div>
+                    <div class="benefit-desc">Lưu thông tin, đặt lại chỉ 1 chạm</div>
+                  </div>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🏆</div>
+                  <div>
+                    <div class="benefit-title">Tích Điểm Thưởng</div>
+                    <div class="benefit-desc">1 điểm/10.000đ, đổi vé xem phim miễn phí</div>
+                  </div>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">🎁</div>
+                  <div>
+                    <div class="benefit-title">Ưu Đãi Độc Quyền</div>
+                    <div class="benefit-desc">Sinh nhật miễn phí, flash sale ưu tiên</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Right: Form -->
+            <div class="col-lg-7">
+              <div class="auth-right">
+                <!-- Tabs -->
+                <div class="auth-tabs">
+                  <button class="auth-tab active" onclick="switchTab('login',this)">Đăng Nhập</button>
+                  <button class="auth-tab" onclick="switchTab('register',this)">Đăng Ký</button>
+                </div>
+
+                <!-- LOGIN -->
+                <div class="tab-content-auth active" id="tabLogin">
+                  <div class="social-login">
+                    <button class="social-btn" onclick="showToast('🔄 Đăng nhập Google...','info')">
+                      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                      Tiếp Tục Với Google
+                    </button>
+                    <button class="social-btn" onclick="showToast('🔄 Đăng nhập Facebook...','info')">
+                      <i class="bi bi-facebook" style="color:#1877f2;font-size:1.1rem"></i>
+                      Tiếp Tục Với Facebook
+                    </button>
+                  </div>
+                  <div class="divider-text">hoặc đăng nhập bằng email</div>
+                  <div class="form-cx">
+                    <div class="mb-3">
+                      <label>EMAIL HOẶC SỐ ĐIỆN THOẠI</label>
+                      <input type="text" class="input-cx" id="loginEmail" placeholder="email@example.com">
+                    </div>
+                    <div class="mb-1">
+                      <label>MẬT KHẨU</label>
+                      <div style="position:relative">
+                        <input type="password" class="input-cx" id="loginPass" placeholder="••••••••" style="padding-right:2.8rem">
+                        <button style="position:absolute;right:.8rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer" onclick="togglePwd('loginPass',this)"><i class="bi bi-eye"></i></button>
+                      </div>
+                    </div>
+                    <div class="text-end mb-3">
+                      <a href="#" style="font-size:.78rem;color:var(--red)" onclick="showToast('📧 Đã gửi email đặt lại mật khẩu','info')">Quên mật khẩu?</a>
+                    </div>
+                    <button class="btn-cx-primary w-100 justify-content-center py-3" onclick="doLogin()">
+                      <i class="bi bi-box-arrow-in-right"></i>Đăng Nhập
+                    </button>
+                  </div>
+                </div>
+
+                <!-- REGISTER -->
+                <div class="tab-content-auth" id="tabRegister">
+                  <div class="form-cx">
+                    <div class="row g-3 mb-3">
+                      <div class="col-6">
+                        <label>HỌ</label>
+                        <input type="text" class="input-cx" id="regLast" placeholder="Nguyễn">
+                      </div>
+                      <div class="col-6">
+                        <label>TÊN</label>
+                        <input type="text" class="input-cx" id="regFirst" placeholder="Văn A">
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label>EMAIL</label>
+                      <input type="email" class="input-cx" id="regEmail" placeholder="email@example.com">
+                    </div>
+                    <div class="mb-3">
+                      <label>SỐ ĐIỆN THOẠI</label>
+                      <input type="tel" class="input-cx" id="regPhone" placeholder="0901 234 567">
+                    </div>
+                    <div class="mb-3">
+                      <label>NGÀY SINH</label>
+                      <input type="date" class="input-cx" id="regDob">
+                    </div>
+                    <div class="mb-1">
+                      <label>MẬT KHẨU</label>
+                      <div style="position:relative">
+                        <input type="password" class="input-cx" id="regPass" placeholder="Tối thiểu 8 ký tự" oninput="checkStrength(this.value)" style="padding-right:2.8rem">
+                        <button style="position:absolute;right:.8rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer" onclick="togglePwd('regPass',this)"><i class="bi bi-eye"></i></button>
+                      </div>
+                      <div class="strength-bar"><div class="strength-fill" id="strengthBar" style="width:0%;background:var(--red)"></div></div>
+                      <div style="font-size:.7rem;color:var(--muted);margin-top:.2rem" id="strengthText">Nhập mật khẩu để kiểm tra độ mạnh</div>
+                    </div>
+                      <div class="mb-3 mt-2">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="agreeReg">
+                        <label class="form-check-label" for="agreeReg" style="font-size:.78rem;color:var(--muted)">
+                          Tôi đồng ý với <a href="#" style="color:var(--red)">Điều Khoản</a> và <a href="#" style="color:var(--red)">Chính Sách Bảo Mật</a>
+                        </label>
+                      </div>
+                    </div>
+                    <button class="btn-cx-primary w-100 justify-content-center py-3" onclick="doRegister()">
+                      <i class="bi bi-person-plus-fill"></i>Tạo Tài Khoản
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE (hidden until logged in) -->
+<div id="profileSection" style="display:none">
+  <div class="container py-5">
+    <div class="row g-4">
+      <!-- Left: Profile card -->
+      <!-- ── Profile sidebar ── -->
+      <div class="col-lg-4">
+        <div class="booking-sidebar text-center mb-4">
+          <!-- Avatar -->
+          <div class="profile-avatar" id="avatarInitials">A</div>
+          <div style="font-family:var(--font-main);font-size:1.1rem;font-weight:800;color:var(--white);margin-bottom:.2rem" id="profileName">Nguyễn Văn A</div>
+          <div class="text-muted" style="font-size:.82rem" id="profileEmail">user@example.com</div>
+          <div class="mt-2 mb-2">
+            <span class="facility-tag" style="font-size:.75rem" id="memberTier">🥈 Thành Viên Bạc</span>
+          </div>
+
+          <hr class="sidebar-divider">
+
+          <!-- Points ring (dynamic) -->
+          <div class="points-ring mb-2">
+            <div class="points-inner">
+              <div class="points-num" id="profilePoints">0</div>
+              <div class="points-label">ĐIỂM</div>
+            </div>
+          </div>
+          <div class="text-muted" style="font-size:.73rem;margin-bottom:.4rem" id="pointsToNext">Cần thêm 500 điểm lên hạng Vàng</div>
+          <div style="background:var(--dark4);border-radius:4px;height:6px;margin:.4rem 0 .75rem;overflow:hidden">
+            <div id="pointsBar" style="height:100%;width:0%;background:var(--gold);border-radius:4px;transition:width .8s ease"></div>
+          </div>
+
+          <!-- Stats row -->
+          <div class="d-flex justify-content-around mb-3" style="background:var(--dark4);border-radius:10px;padding:.65rem .5rem">
+            <div>
+              <div style="font-family:var(--font-main);font-size:1.1rem;font-weight:800;color:var(--white)" id="statTickets">0</div>
+              <div class="text-muted" style="font-size:.65rem;font-family:var(--font-main);font-weight:600">VÉ ĐÃ MUA</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+            <div>
+              <div style="font-family:var(--font-main);font-size:1.1rem;font-weight:800;color:var(--gold)" id="statSpend">0đ</div>
+              <div class="text-muted" style="font-size:.65rem;font-family:var(--font-main);font-weight:600">ĐÃ CHI</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+            <div>
+              <div style="font-family:var(--font-main);font-size:1.1rem;font-weight:800;color:#27ae60" id="statActive">0</div>
+              <div class="text-muted" style="font-size:.65rem;font-family:var(--font-main);font-weight:600">CÒN HIỆU LỰC</div>
+            </div>
+          </div>
+
+          <hr class="sidebar-divider">
+
+          <!-- Edit profile form (collapsed) -->
+          <div id="editProfileWrap" style="display:none;text-align:left;margin-bottom:1rem">
+            <div class="selector-label mb-2">✏️ Chỉnh Sửa Hồ Sơ</div>
+            <div class="form-cx mb-2">
+              <label>HỌ VÀ TÊN</label>
+              <input type="text" class="input-cx" id="editName" placeholder="Nguyễn Văn A">
+            </div>
+            <div class="form-cx mb-2">
+              <label>SỐ ĐIỆN THOẠI</label>
+              <input type="tel" class="input-cx" id="editPhone" placeholder="0901 234 567">
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn-cx-primary flex-grow-1 justify-content-center" style="font-size:.8rem" onclick="saveProfile()">
+                <i class="bi bi-check-circle-fill"></i>Lưu
+              </button>
+              <button class="btn-cx-outline justify-content-center" style="font-size:.8rem;padding:.5rem .9rem" onclick="toggleEditProfile()">
+                Huỷ
+              </button>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column gap-2">
+            <button class="btn-cx-outline w-100 justify-content-center" onclick="toggleEditProfile()">
+              <i class="bi bi-pencil-fill"></i>Chỉnh Sửa Hồ Sơ
+            </button>
+            <button class="btn-cx-outline w-100 justify-content-center" onclick="doLogout()"
+              style="border-color:rgba(229,9,20,.35);color:var(--red)">
+              <i class="bi bi-box-arrow-right"></i>Đăng Xuất
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── History panel ── -->
+      <div class="col-lg-8">
+        <!-- Filter tabs -->
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+          <h2 class="section-title mb-0">📋 Lịch Sử Đặt Vé</h2>
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="filter-btn active" data-status="all" onclick="filterHistory('all',this)">Tất Cả</button>
+            <button class="filter-btn" data-status="Đã Thanh Toán" onclick="filterHistory('Đã Thanh Toán',this)">Đã Thanh Toán</button>
+            <button class="filter-btn" data-status="Đã Sử Dụng" onclick="filterHistory('Đã Sử Dụng',this)">Đã Sử Dụng</button>
+            <button class="filter-btn" data-status="Đã Huỷ" onclick="filterHistory('Đã Huỷ',this)">Đã Huỷ</button>
+          </div>
+        </div>
+        <div id="historyList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-cx">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="footer-brand">Cinema<span>X</span></div>
+        <p class="footer-desc">Hệ thống đặt vé xem phim trực tuyến hàng đầu Việt Nam.</p>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-title">Điều Hướng</div>
+        <a href="index.html" class="footer-link">Trang Chủ</a>
+        <a href="movies.html" class="footer-link">Danh Sách Phim</a>
+        <a href="promotions.html" class="footer-link">Ưu Đãi</a>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">© 2025 CinemaX. Tất cả quyền được bảo lưu.</div>
+  </div>
+</footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn"><i class="bi bi-chevron-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/navbar.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+const FAKE_USER_KEY = 'cx_user';
+
+// ── Auto-login check ──────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const user = getCurrentUser();
+  if (user) {
+    // Đã đăng nhập: hiện profile ngay, ẩn form
+    showProfile(user);
+  } else {
+    // Chưa đăng nhập: đảm bảo form hiện
+    const auth = document.getElementById('authSection');
+    const prof = document.getElementById('profileSection');
+    if (auth) auth.style.display = '';
+    if (prof) prof.style.display = 'none';
+  }
+});
+
+// ── Tab switch ────────────────────────────────────────────
+function switchTab(tab, btn) {
+  document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content-auth').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const id = 'tab' + tab.charAt(0).toUpperCase() + tab.slice(1);
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Login ────────────────────────────────────────────────
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  if (!email || !pass) { showToast('⚠️ Vui lòng điền đầy đủ thông tin', 'default'); return; }
+  const name = email.split('@')[0] || 'Khách';
+  const user = { name, email };
+  localStorage.setItem(FAKE_USER_KEY, JSON.stringify(user));
+  showToast('✅ Đăng nhập thành công! Chào mừng ' + (user.name || '') + '!', 'success');
+  // Cập nhật navbar ngay lập tức
+  if (typeof renderLoggedIn === 'function') {
+    const navWrap = document.getElementById('navAuthWrap');
+    if (navWrap) renderLoggedIn(navWrap, user);
+  }
+  // Hiện profile ngay không delay
+  showProfile(user);
+}
+
+// ── Register ─────────────────────────────────────────────
+function doRegister() {
+  const first = document.getElementById('regFirst').value.trim();
+  const last  = document.getElementById('regLast').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const dob   = document.getElementById('regDob').value;
+  const pass  = document.getElementById('regPass').value;
+  const agree = document.getElementById('agreeReg').checked;
+  if (!first || !last || !email || !pass) { showToast('⚠️ Vui lòng điền đầy đủ thông tin', 'default'); return; }
+  if (!agree) { showToast('⚠️ Vui lòng đồng ý điều khoản sử dụng', 'default'); return; }
+  if (pass.length < 8) { showToast('⚠️ Mật khẩu phải có ít nhất 8 ký tự', 'default'); return; }
+  const user = { name: last + ' ' + first, email, phone, dob };
+  localStorage.setItem(FAKE_USER_KEY, JSON.stringify(user));
+  showToast('🎉 Tạo tài khoản thành công! Chào mừng ' + first + '!', 'success');
+  // Cập nhật navbar ngay lập tức
+  if (typeof renderLoggedIn === 'function') {
+    const navWrap2 = document.getElementById('navAuthWrap');
+    if (navWrap2) renderLoggedIn(navWrap2, user);
+  }
+  // Hiện profile ngay không delay
+  showProfile(user);
+}
+
+// ── Logout ────────────────────────────────────────────────
+function doLogout() {
+  localStorage.removeItem(FAKE_USER_KEY);
+  document.getElementById('profileSection').style.display = 'none';
+  document.getElementById('authSection').style.display = '';
+  // Cập nhật navbar
+  if (typeof renderLoggedOut === 'function') {
+    const navWrap3 = document.getElementById('navAuthWrap');
+    if (navWrap3) renderLoggedOut(navWrap3);
+  }
+  showToast('👋 Đã đăng xuất thành công!', 'default');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Show profile ──────────────────────────────────────────
+function showProfile(user) {
+  document.getElementById('authSection').style.display = 'none';
+  const profSec = document.getElementById('profileSection');
+  profSec.style.display = 'block';
+  // Scroll vào profile
+  setTimeout(() => profSec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  document.getElementById('profileName').textContent  = user.name;
+  document.getElementById('profileEmail').textContent = user.email;
+  document.getElementById('avatarInitials').textContent = (user.name || 'U').charAt(0).toUpperCase();
+
+  // Pre-fill edit fields
+  const editName  = document.getElementById('editName');
+  const editPhone = document.getElementById('editPhone');
+  if (editName)  editName.value  = user.name  || '';
+  if (editPhone) editPhone.value = user.phone || '';
+
+  // Compute stats from history
+  const hist   = loadUserHistory();
+  const totalSpend  = hist.reduce((s, b) => s + (b.total || 0), 0);
+  const totalTickets= hist.filter(b => b.status !== 'Đã Huỷ').reduce((s, b) => s + (b.seats?.length || 0), 0);
+  const activeCount = hist.filter(b => b.status === 'Đã Thanh Toán').length;
+  const points = Math.floor(totalSpend / 10000);
+
+  // Update DOM stats
+  const setEl = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val; };
+  setEl('profilePoints', points);
+  setEl('statTickets',   totalTickets);
+  setEl('statSpend',     totalSpend >= 1000000
+    ? (totalSpend/1000000).toFixed(1) + 'M'
+    : formatVND(totalSpend));
+  setEl('statActive', activeCount);
+
+  // Points ring progress
+  const threshold = points >= 2000 ? 2000 : points >= 500 ? 2000 : 500;
+  const base      = points >= 500 ? 500 : 0;
+  const pct = Math.min(100, Math.round(((points - base) / (threshold - base)) * 100));
+  setTimeout(() => {
+    const bar = document.getElementById('pointsBar');
+    if (bar) bar.style.width = pct + '%';
+  }, 100);
+
+  const toNext = points >= 2000
+    ? 0
+    : points >= 500 ? 2000 - points : 500 - points;
+  setEl('pointsToNext',
+    points >= 2000 ? '🏆 Đã đạt hạng Diamond – Cao nhất!' :
+    points >= 500  ? `Cần thêm ${toNext} điểm lên hạng Diamond` :
+                     `Cần thêm ${toNext} điểm lên hạng Vàng`
+  );
+
+  const tier = points >= 2000 ? '💎 VIP Diamond' : points >= 500 ? '🥇 Thành Viên Vàng' : '🥈 Thành Viên Bạc';
+  setEl('memberTier', tier);
+
+  renderHistory(user, 'all');
+}
+
+// ── Filter history ────────────────────────────────────────
+function filterHistory(status, btn) {
+  document.querySelectorAll('[data-status]').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderHistory(getCurrentUser(), status);
+}
+
+// ── Toggle edit profile ────────────────────────────────────
+function toggleEditProfile() {
+  const wrap = document.getElementById('editProfileWrap');
+  if (!wrap) return;
+  wrap.style.display = wrap.style.display === 'none' ? 'block' : 'none';
+}
+
+// ── Save profile ──────────────────────────────────────────
+function saveProfile() {
+  const user  = getCurrentUser();
+  if (!user) return;
+  const name  = document.getElementById('editName')?.value.trim();
+  const phone = document.getElementById('editPhone')?.value.trim();
+  if (!name) { showToast('⚠️ Tên không được để trống', 'default'); return; }
+  user.name  = name;
+  user.phone = phone;
+  localStorage.setItem(FAKE_USER_KEY, JSON.stringify(user));
+  toggleEditProfile();
+  showProfile(user);
+  showToast('✅ Đã lưu hồ sơ thành công!', 'success');
+}
+
+// ── Render per-user history ────────────────────────────────
+function renderHistory(user, statusFilter) {
+  const wrap = document.getElementById('historyList');
+  if (!wrap) return;
+
+  let history = loadUserHistory(); // uses getCurrentUser() internally
+  if (statusFilter && statusFilter !== 'all') {
+    history = history.filter(b => (b.status || 'Đã Thanh Toán') === statusFilter);
+  }
+
+  if (history.length === 0) {
+    wrap.innerHTML = `
+      <div class="text-center py-5">
+        <div style="font-size:3rem;margin-bottom:.75rem">🎟️</div>
+        <div style="font-family:var(--font-main);font-weight:700;color:var(--white);font-size:1rem">Chưa có lịch sử đặt vé</div>
+        <p class="text-muted mt-1" style="font-size:.85rem">Đặt vé ngay để tận hưởng trải nghiệm điện ảnh!</p>
+        <a href="movies.html" class="btn-cx-primary mt-3 d-inline-flex">
+          <i class="bi bi-ticket-perforated-fill"></i>Đặt Vé Ngay
+        </a>
+      </div>`;
+    return;
+  }
+
+  const statusColors = {
+    'Đã Thanh Toán': '#27ae60',
+    'Đã Sử Dụng':    '#888',
+    'Đã Huỷ':        '#e74c3c',
+  };
+
+  wrap.innerHTML = history.map(bk => {
+    const movie = getMovieById(bk.movieId);
+    const seats = Array.isArray(bk.seats)
+      ? bk.seats.map(s => typeof s === 'object' ? s.label : s).join(', ')
+      : '—';
+    const poster = movie
+      ? (movie.poster.startsWith('url(') ? movie.posterFallback : movie.poster)
+      : (bk.moviePoster || 'var(--dark4)');
+    const emoji  = movie ? movie.emoji : (bk.movieEmoji || '🎬');
+    const status = bk.status || 'Đã Thanh Toán';
+    const color  = statusColors[status] || '#27ae60';
+    const snackCount = Object.values(bk.snacks || {}).reduce((a,b) => a+b, 0);
+
+    return `
+    <div class="booking-history-item" style="cursor:pointer" onclick="toggleDetail('${bk.code}')">
+      <div class="history-poster" style="background:${poster};background-size:cover;background-position:center top">
+        ${poster === 'var(--dark4)' ? emoji : ''}
+      </div>
+      <div class="flex-grow-1" style="min-width:0">
+        <div class="history-movie">${bk.movieTitle || '—'}</div>
+        <div class="history-meta">
+          <i class="bi bi-geo-alt-fill text-danger" style="font-size:.65rem"></i> ${bk.cinemaName || '—'} &nbsp;·&nbsp;
+          <i class="bi bi-calendar3 text-muted" style="font-size:.65rem"></i> ${bk.date || '—'} lúc ${bk.showtime || '—'}
+        </div>
+        <div class="history-meta mt-1">
+          <i class="bi bi-grid-3x3-gap text-muted" style="font-size:.65rem"></i> Ghế: ${seats}
+          ${snackCount > 0 ? `&nbsp;·&nbsp; 🍿 ${snackCount} combo` : ''}
+        </div>
+        <div class="history-code mt-1">${bk.code || '—'}</div>
+      </div>
+      <div class="d-flex flex-column align-items-end gap-1 flex-shrink-0">
+        <span style="background:rgba(${color === '#27ae60' ? '39,174,96' : color === '#888' ? '136,136,136' : '231,76,60'},.15);color:${color};font-size:.65rem;font-family:var(--font-main);font-weight:700;padding:.15rem .45rem;border-radius:4px;white-space:nowrap">${status}</span>
+        <div style="font-family:var(--font-main);font-size:.82rem;font-weight:700;color:var(--gold)">${formatVND(bk.total || 0)}</div>
+        <i class="bi bi-chevron-down text-muted" style="font-size:.7rem" id="chev_${bk.code}"></i>
+      </div>
+    </div>
+    <div id="detail_${bk.code}" style="display:none;background:var(--dark4);border-radius:0 0 var(--radius) var(--radius);padding:.75rem 1rem;margin-top:-.5rem;margin-bottom:.6rem;border:1px solid rgba(255,255,255,.06);border-top:none">
+      <div class="row g-2" style="font-size:.78rem;color:var(--muted)">
+        <div class="col-6"><b style="color:var(--white)">Định dạng</b><br>${bk.format || '—'}</div>
+        <div class="col-6"><b style="color:var(--white)">Địa chỉ</b><br>${bk.cinemaAddr || '—'}</div>
+        ${Object.entries(bk.snacks || {}).filter(([,q])=>q>0).map(([id,q]) => {
+          const sn = SNACKS.find(s=>s.id===+id);
+          return sn ? `<div class="col-12">${sn.emoji} ${sn.name} × ${q} = <span style="color:var(--gold)">${formatVND(sn.price*q)}</span></div>` : '';
+        }).join('')}
+        <div class="col-12 d-flex gap-2 mt-1">
+          <button class="btn-cx-outline" style="font-size:.72rem;padding:.3rem .7rem" onclick="event.stopPropagation();showToast('🖨️ Đang in vé…','info')">
+            <i class="bi bi-printer"></i> In Vé
+          </button>
+          <button class="btn-cx-outline" style="font-size:.72rem;padding:.3rem .7rem;border-color:rgba(231,76,60,.4);color:#e74c3c"
+            onclick="event.stopPropagation();cancelBooking('${bk.code}')">
+            <i class="bi bi-x-circle"></i> Huỷ Vé
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Toggle detail row ────────────────────────────────────
+function toggleDetail(code) {
+  const el   = document.getElementById('detail_' + code);
+  const chev = document.getElementById('chev_' + code);
+  if (!el) return;
+  const open = el.style.display !== 'none';
+  el.style.display   = open ? 'none' : 'block';
+  chev.className = open ? 'bi bi-chevron-down text-muted' : 'bi bi-chevron-up text-danger';
+  if (!open) el.style.cssText += ';animation:fadeIn .2s ease';
+}
+
+// ── Cancel booking ────────────────────────────────────────
+function cancelBooking(code) {
+  if (!confirm('Bạn có chắc muốn huỷ vé ' + code + '?')) return;
+  const user = getCurrentUser();
+  const key  = user ? 'cx_history_' + user.email : 'cx_history_guest';
+  const list = JSON.parse(localStorage.getItem(key) || '[]');
+  const idx  = list.findIndex(b => b.code === code);
+  if (idx >= 0) {
+    list[idx].status = 'Đã Huỷ';
+    localStorage.setItem(key, JSON.stringify(list));
+    showToast('🗑️ Đã huỷ vé ' + code, 'default');
+    renderHistory(getCurrentUser());
+  }
+}
+
+// ── Toggle password ───────────────────────────────────────
+function togglePwd(id, btn) {
+  const input = document.getElementById(id);
+  const isText = input.type === 'text';
+  input.type = isText ? 'password' : 'text';
+  btn.querySelector('i').className = isText ? 'bi bi-eye' : 'bi bi-eye-slash';
+}
+
+// ── Password strength ─────────────────────────────────────
+function checkStrength(val) {
+  const bar  = document.getElementById('strengthBar');
+  const text = document.getElementById('strengthText');
+  if (!val) { bar.style.width='0%'; text.textContent='Nhập mật khẩu để kiểm tra độ mạnh'; return; }
+  let score = 0;
+  if (val.length >= 8)           score++;
+  if (/[A-Z]/.test(val))         score++;
+  if (/[0-9]/.test(val))         score++;
+  if (/[^A-Za-z0-9]/.test(val))  score++;
+  const levels = [
+    { w:'20%', bg:'#e74c3c', t:'Rất yếu' },
+    { w:'40%', bg:'#e67e22', t:'Yếu' },
+    { w:'65%', bg:'#f1c40f', t:'Trung bình' },
+    { w:'85%', bg:'#2ecc71', t:'Mạnh' },
+    { w:'100%',bg:'#27ae60', t:'Rất mạnh ✓' },
+  ];
+  const l = levels[Math.min(score, 4)];
+  bar.style.width = l.w; bar.style.background = l.bg; text.textContent = l.t;
+}
+</script>
+</body>
+</html>

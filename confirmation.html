@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt Vé Thành Công – CinemaX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body data-page="confirmation">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-cinemex navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand-cx" href="index.html">Cinema<span>X</span></a>
+  </div>
+</nav>
+
+<!-- STEP BAR -->
+<div class="steps-bar">
+  <div class="container">
+    <div class="steps-list">
+      <div class="step-item done">
+        <div class="step-inner"><div class="step-num">✓</div><span class="step-label">Chọn Ghế</span></div>
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-item done">
+        <div class="step-inner"><div class="step-num">✓</div><span class="step-label">Bắp & Nước</span></div>
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-item done">
+        <div class="step-inner"><div class="step-num">✓</div><span class="step-label">Thanh Toán</span></div>
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-item active">
+        <div class="step-inner"><div class="step-num">4</div><span class="step-label">Xác Nhận</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<section class="section-cx">
+  <div class="container">
+    <div class="confirm-card">
+      <div id="confirmContent">
+        <div class="text-center py-5">
+          <div class="spinner-border text-danger"></div>
+          <div class="mt-2 text-muted">Đang tải thông tin vé…</div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
+        <button class="btn-cx-primary" onclick="window.print()">
+          <i class="bi bi-printer-fill"></i>In Vé
+        </button>
+        <button class="btn-cx-outline" onclick="showToast('📧 Đã gửi vé tới email của bạn!','success')">
+          <i class="bi bi-envelope-fill"></i>Gửi Email
+        </button>
+        <a href="movies.html" class="btn-cx-outline">
+          <i class="bi bi-film"></i>Đặt Vé Tiếp
+        </a>
+        <a href="index.html" class="btn-cx-outline">
+          <i class="bi bi-house-fill"></i>Trang Chủ
+        </a>
+      </div>
+    </div>
+
+    <!-- Gợi ý phim khác -->
+    <div class="mt-5">
+      <h2 class="section-title">🎬 Phim Đang Chiếu Khác</h2>
+      <div class="row g-3" id="suggestGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-cx">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="footer-brand">Cinema<span>X</span></div>
+        <p class="footer-desc">Cảm ơn bạn đã chọn CinemaX! Chúc bạn xem phim vui vẻ.</p>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-title">Hỗ Trợ</div>
+        <span class="footer-link" style="cursor:default">Hotline: 1900 6789</span>
+        <span class="footer-link" style="cursor:default">support@cinemex.vn</span>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-title">Điều Hướng</div>
+        <a href="index.html" class="footer-link">Trang Chủ</a>
+        <a href="movies.html" class="footer-link">Danh Sách Phim</a>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">© 2025 CinemaX. Tất cả quyền được bảo lưu.</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/navbar.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/booking.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Suggest other movies
+  const bk = loadBooking();
+  const suggestGrid = document.getElementById("suggestGrid");
+  if (suggestGrid) {
+    const movies = MOVIES.filter(m => m.status === "showing" && (!bk || m.title !== bk.movieTitle)).slice(0,4);
+    suggestGrid.innerHTML = movies.map(m => `
+      <div class="col-6 col-sm-3">
+        <div class="movie-card" onclick="location.href='movie-detail.html?id=${m.id}'">
+          <div class="movie-poster" style="background:${m.poster}">
+            <span style="font-size:3rem">${m.emoji}</span>
+            <span class="movie-rating-badge">${m.rating}</span>
+            <div class="movie-format-badges">${m.format.map(f=>`<span class="format-badge">${f}</span>`).join("")}</div>
+          </div>
+          <div class="movie-info">
+            <div class="movie-title-card">${m.title}</div>
+            <div class="movie-score"><i class="bi bi-star-fill"></i>${m.score}</div>
+          </div>
+          <div class="movie-overlay">
+            <a href="booking.html?id=${m.id}" class="btn-cx-primary btn-sm"><i class="bi bi-ticket-perforated-fill"></i>Đặt Vé</a>
+          </div>
+        </div>
+      </div>`).join("");
+  }
+});
+</script>
+
+<style>
+@media print {
+  .navbar-cinemex, .steps-bar, footer, .btn-cx-primary, .btn-cx-outline, #suggestGrid, h2 { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .confirm-card { border: 2px solid #ddd !important; box-shadow: none !important; }
+  .ticket-code { background: #f5f5f5 !important; color: black !important; border: 2px dashed #999 !important; }
+}
+</style>
+</body>
+</html>

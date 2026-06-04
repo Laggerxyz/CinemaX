@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Phim – CinemaX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body data-page="movies">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-cinemex navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand-cx" href="index.html">Cinema<span>X</span></a>
+    <button class="navbar-toggler-cx" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link-cx" href="index.html"><i class="bi bi-house-fill me-1"></i>Trang Chủ</a></li>
+        <li class="nav-item"><a class="nav-link-cx active" href="movies.html"><i class="bi bi-film me-1"></i>Phim</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="index.html#cinemasSection"><i class="bi bi-geo-alt-fill me-1"></i>Rạp</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="promotions.html"><i class="bi bi-gift-fill me-1"></i>Ưu Đãi</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="account.html"><i class="bi bi-person-fill me-1"></i>Tài Khoản</a></li>
+      </ul>
+      <div class="ms-lg-3 d-flex align-items-center gap-2 mt-2 mt-lg-0" id="navAuthWrap">
+        <!-- Rendered by navbar.js -->
+        <a href="account.html" class="btn-cx-outline" style="padding:.45rem 1rem;font-size:.82rem;text-decoration:none">
+          <i class="bi bi-person"></i>Đăng Nhập
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div style="background:linear-gradient(135deg,var(--dark2),var(--dark3));padding:2.5rem 0 1.5rem;border-bottom:1px solid rgba(229,9,20,.2)">
+  <div class="container">
+    <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider:'›'">
+      <ol class="breadcrumb" style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem">
+        <li class="breadcrumb-item"><a href="index.html" class="text-muted">Trang Chủ</a></li>
+        <li class="breadcrumb-item active text-white">Phim</li>
+      </ol>
+    </nav>
+    <h1 style="font-family:var(--font-main);font-size:clamp(1.5rem,4vw,2.2rem);font-weight:900;color:var(--white)">
+      🎬 Danh Sách Phim
+    </h1>
+    <p class="text-muted" style="font-size:.88rem">Khám phá các bộ phim đang chiếu và sắp chiếu tại CinemaX</p>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div style="background:var(--dark2);border-bottom:1px solid rgba(255,255,255,.06);padding:.9rem 0">
+  <div class="container">
+    <div class="filter-bar">
+      <input type="text" class="search-input-cx" id="movieSearch" placeholder="🔍 Tìm kiếm phim...">
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="filter-btn active" data-genre="all">Tất Cả</button>
+        <button class="filter-btn" data-genre="showing">Đang Chiếu</button>
+        <button class="filter-btn" data-genre="coming">Sắp Chiếu</button>
+        <button class="filter-btn" data-genre="Hành Động">Hành Động</button>
+        <button class="filter-btn" data-genre="Kinh Dị">Kinh Dị</button>
+        <button class="filter-btn" data-genre="Hài">Hài</button>
+        <button class="filter-btn" data-genre="Hoạt Hình">Hoạt Hình</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOVIES GRID -->
+<section class="section-cx">
+  <div class="container">
+    <div class="row g-3" id="moviesListGrid" style="position:relative;isolation:isolate">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-cx">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="footer-brand">Cinema<span>X</span></div>
+        <p class="footer-desc">Hệ thống đặt vé xem phim trực tuyến hàng đầu Việt Nam.</p>
+        <div class="mt-3">
+          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="footer-title">Phim</div>
+        <a href="movies.html" class="footer-link">Đang Chiếu</a>
+        <a href="movies.html" class="footer-link">Sắp Chiếu</a>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="footer-title">Hỗ Trợ</div>
+        <a href="#" class="footer-link">FAQ</a>
+        <a href="#" class="footer-link">Liên Hệ</a>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">© 2025 CinemaX. Tất cả quyền được bảo lưu.</div>
+  </div>
+</footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn"><i class="bi bi-chevron-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/navbar.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/booking.js"></script>
+</body>
+</html>

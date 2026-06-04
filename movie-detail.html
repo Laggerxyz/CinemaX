@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết Phim – CinemaX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body data-page="detail">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-cinemex navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand-cx" href="index.html">Cinema<span>X</span></a>
+    <button class="navbar-toggler-cx" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link-cx" href="index.html"><i class="bi bi-house-fill me-1"></i>Trang Chủ</a></li>
+        <li class="nav-item"><a class="nav-link-cx active" href="movies.html"><i class="bi bi-film me-1"></i>Phim</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="index.html#cinemasSection"><i class="bi bi-geo-alt-fill me-1"></i>Rạp</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="promotions.html"><i class="bi bi-gift-fill me-1"></i>Ưu Đãi</a></li>
+        <li class="nav-item"><a class="nav-link-cx" href="account.html"><i class="bi bi-person-fill me-1"></i>Tài Khoản</a></li>
+      </ul>
+      <div class="ms-lg-3 d-flex align-items-center gap-2 mt-2 mt-lg-0" id="navAuthWrap">
+        <!-- Rendered by navbar.js -->
+        <a href="account.html" class="btn-cx-outline" style="padding:.45rem 1rem;font-size:.82rem;text-decoration:none">
+          <i class="bi bi-person"></i>Đăng Nhập
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero" id="detailHero" style="background:linear-gradient(135deg,#1a1a2e,#0d0d0d)">
+  <div class="page-hero-bg" style="opacity:.35" id="detailHeroBg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="container page-hero-content">
+    <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider:'›'">
+      <ol class="breadcrumb" style="font-size:.78rem;color:rgba(255,255,255,.6);margin-bottom:.75rem">
+        <li class="breadcrumb-item"><a href="index.html" style="color:rgba(255,255,255,.6)">Trang Chủ</a></li>
+        <li class="breadcrumb-item"><a href="movies.html" style="color:rgba(255,255,255,.6)">Phim</a></li>
+        <li class="breadcrumb-item active text-white">Chi Tiết</li>
+      </ol>
+    </nav>
+    <div class="row align-items-end g-3">
+      <div class="col-md-auto d-none d-md-block">
+        <div style="width:110px;height:155px;border-radius:12px;background:var(--dark4);display:flex;align-items:center;justify-content:center;font-size:3.5rem;border:2px solid rgba(255,255,255,.12);box-shadow:0 8px 24px rgba(0,0,0,.5)" id="dHeroEmoji">🎬</div>
+      </div>
+      <div class="col-md">
+        <div id="dFormats" class="mb-2"></div>
+        <h1 style="font-family:var(--font-main);font-weight:900;font-size:clamp(1.5rem,4vw,2.5rem);color:var(--white);margin-bottom:.2rem" id="dTitle">Đang tải…</h1>
+        <p style="color:rgba(255,255,255,.65);font-size:.88rem;margin-bottom:.6rem;font-style:italic" id="dSubtitle"></p>
+        <div id="dGenres" class="mb-2"></div>
+        <div class="d-flex flex-wrap gap-3 mb-3" style="font-size:.85rem;color:rgba(255,255,255,.75)">
+          <span id="dScore"><i class="bi bi-star-fill text-warning"></i> —</span>
+          <span><i class="bi bi-clock text-danger"></i> <span id="dDuration">—</span></span>
+          <span><i class="bi bi-shield-check text-info"></i> <span id="dRating">—</span></span>
+          <span><i class="bi bi-translate text-success"></i> <span id="dLanguage">—</span></span>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="#" class="btn-cx-primary" id="dBookBtn">
+            <i class="bi bi-ticket-perforated-fill"></i>Đặt Vé Ngay
+          </a>
+          <button class="btn-cx-outline" onclick="showToast('🔔 Chia sẻ thành công!','success')">
+            <i class="bi bi-share-fill"></i>Chia Sẻ
+          </button>
+          <button class="btn-cx-outline" onclick="showToast('❤️ Đã thêm vào yêu thích!','info')">
+            <i class="bi bi-heart-fill"></i>Yêu Thích
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<section class="section-cx">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Left -->
+      <div class="col-lg-8">
+        <!-- Tabs -->
+        <div class="detail-tabs">
+          <span class="detail-tab active" data-target="tabSynopsis">Nội Dung</span>
+          <span class="detail-tab" data-target="tabCrew">Diễn Viên</span>
+          <span class="detail-tab" data-target="tabReviews">Đánh Giá</span>
+        </div>
+
+        <div class="tab-pane active" id="tabSynopsis">
+          <p style="color:var(--light);font-size:.92rem;line-height:1.8" id="dSynopsis">Đang tải…</p>
+          <div class="row g-2 mt-3">
+            <div class="col-sm-6">
+              <div class="cinema-card">
+                <div class="cinema-address" style="font-size:.75rem">ĐẠO DIỄN</div>
+                <div class="cinema-name" id="dDirector">—</div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="cinema-card">
+                <div class="cinema-address" style="font-size:.75rem">DIỄN VIÊN CHÍNH</div>
+                <div class="cinema-name" style="font-size:.82rem;white-space:normal" id="dCast">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tabCrew">
+          <div id="dCastGrid" class="row g-3">
+            <!-- Rendered dynamically if needed -->
+            <div class="col-12 text-muted" style="font-size:.88rem">
+              Thông tin diễn viên chi tiết sẽ được cập nhật sớm.
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tabReviews">
+          <div class="cinema-card mb-3">
+            <div class="d-flex gap-3 align-items-start">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;font-family:var(--font-main);flex-shrink:0">N</div>
+              <div>
+                <div style="font-family:var(--font-main);font-weight:700;font-size:.88rem;color:var(--white)">Nguyễn Văn A</div>
+                <div style="color:var(--gold);font-size:.8rem">★★★★★</div>
+                <p style="font-size:.82rem;color:var(--muted);margin-top:.3rem">Phim quá hay! Hiệu ứng hình ảnh đỉnh cao, cốt truyện cuốn hút từ đầu đến cuối. Xem lần 2 rồi vẫn cảm thấy hồi hộp.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cinema-card">
+            <div class="d-flex gap-3 align-items-start">
+              <div style="width:36px;height:36px;border-radius:50%;background:var(--dark4);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;font-family:var(--font-main);flex-shrink:0;color:var(--gold)">T</div>
+              <div>
+                <div style="font-family:var(--font-main);font-weight:700;font-size:.88rem;color:var(--white)">Trần Thị B</div>
+                <div style="color:var(--gold);font-size:.8rem">★★★★☆</div>
+                <p style="font-size:.82rem;color:var(--muted);margin-top:.3rem">Rất đáng xem, đặc biệt là phòng IMAX. Chỉ tiếc phần cuối hơi vội. Nhưng nhìn chung là một trải nghiệm tuyệt vời!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right sidebar -->
+      <div class="col-lg-4">
+        <div class="detail-sidebar-wrap">
+          <!-- Book now card -->
+          <div class="booking-sidebar mb-4">
+            <div class="sidebar-movie-title">🎟️ Đặt Vé Nhanh</div>
+            <div class="mb-3">
+              <div class="selector-label">Chọn Rạp</div>
+              <select class="input-cx" id="quickCinema">
+                <option value="">-- Chọn rạp chiếu --</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <div class="selector-label">Chọn Ngày</div>
+              <div class="date-scroll" id="quickDates"></div>
+            </div>
+            <div class="mb-3">
+              <div class="selector-label">Suất Chiếu</div>
+              <div class="showtime-grid" id="quickShowtimes"></div>
+            </div>
+            <a href="#" class="btn-cx-primary w-100 justify-content-center" id="dBookBtn2">
+              <i class="bi bi-ticket-perforated-fill"></i>Đặt Vé Ngay
+            </a>
+          </div>
+
+          <!-- Phim liên quan -->
+          <div>
+            <h5 style="font-family:var(--font-main);font-weight:800;color:var(--white);margin-bottom:1rem;font-size:.95rem">
+              🎬 Phim Tương Tự
+            </h5>
+            <div class="row g-2" id="similarMovies"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-cx">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="footer-brand">Cinema<span>X</span></div>
+        <p class="footer-desc">Hệ thống đặt vé xem phim trực tuyến hàng đầu Việt Nam.</p>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-title">Điều Hướng</div>
+        <a href="index.html" class="footer-link">Trang Chủ</a>
+        <a href="movies.html" class="footer-link">Danh Sách Phim</a>
+      </div>
+      <div class="col-md-3">
+        <div class="footer-title">Liên Hệ</div>
+        <a href="#" class="footer-link">1900 6789</a>
+        <a href="#" class="footer-link">support@cinemex.vn</a>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">© 2025 CinemaX. Tất cả quyền được bảo lưu.</div>
+  </div>
+</footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn"><i class="bi bi-chevron-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/navbar.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/booking.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Apply real poster to hero
+  const movieId2 = getUrlParam("id");
+  const movieForHero = getMovieById(movieId2);
+  if (movieForHero) {
+    const heroBg = document.getElementById("detailHero");
+    const heroBgDiv = document.querySelector(".page-hero-bg");
+    if (heroBg && movieForHero.poster.startsWith("url(")) {
+      heroBg.style.setProperty("background", movieForHero.posterFallback);
+      if (heroBgDiv) {
+        heroBgDiv.style.backgroundImage = movieForHero.poster;
+        heroBgDiv.style.backgroundSize  = "cover";
+        heroBgDiv.style.backgroundPosition = "center center";
+        heroBgDiv.style.opacity = "1";
+        heroBgDiv.style.filter  = "brightness(.35)";
+      }
+    }
+  }
+
+  // Quick book selectors
+  const qCinema = document.getElementById("quickCinema");
+  CINEMAS.forEach(c => qCinema.innerHTML += `<option value="${c.id}">${c.name}</option>`);
+
+  const qDates = document.getElementById("quickDates");
+  getNextDays(5).forEach((d, i) => {
+    const lbl = formatDateLabel(d).split(" ");
+    const btn = document.createElement("button");
+    btn.className = "date-btn" + (i===0?" active":"");
+    btn.innerHTML = `<span class="day">${lbl[0]}</span><span class="date">${lbl[1]}</span>`;
+    btn.onclick = function() {
+      document.querySelectorAll("#quickDates .date-btn").forEach(b=>b.classList.remove("active"));
+      this.classList.add("active");
+    };
+    qDates.appendChild(btn);
+  });
+
+  const qShowtimes = document.getElementById("quickShowtimes");
+  BASE_SHOWTIMES.forEach(t => {
+    qShowtimes.innerHTML += `<button class="showtime-btn" onclick="selectQS('${t}',this)">${t}<span class="st-format">2D</span></button>`;
+  });
+
+  // Book button
+  const movieId = getUrlParam("id");
+  const btn2 = document.getElementById("dBookBtn2");
+  if (btn2) btn2.href = `booking.html?id=${movieId}`;
+});
+
+function selectQS(t, el) {
+  document.querySelectorAll("#quickShowtimes .showtime-btn").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+  const movieId = getUrlParam("id");
+  document.getElementById("dBookBtn2").href = `booking.html?id=${movieId}`;
+}
+</script>
+</body>
+</html>
